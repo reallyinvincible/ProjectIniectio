@@ -1,5 +1,6 @@
 package app.sparsh.iniectio.ui.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import app.sparsh.iniectio.R
 import app.sparsh.iniectio.databinding.ActivityAuthBinding
+import app.sparsh.iniectio.ui.main.MainActivity
 import app.sparsh.iniectio.viewmodels.ViewModelProviderFactory
 import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
@@ -42,7 +44,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
     }
 
     private fun subscribeObservers() {
-        viewModel.observeUser().observe(this, { userAuthResource ->
+        viewModel.observeAuthState().observe(this, { userAuthResource ->
             if (userAuthResource != null) {
                 when (userAuthResource.status) {
                     AuthResource.AuthStatus.LOADING -> {
@@ -51,6 +53,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
 
                     AuthResource.AuthStatus.AUTHENTICATED -> {
                         showProgressBar(false)
+                        onLoginSuccess()
                         Log.i(TAG, "Login Success ${userAuthResource.data?.email}")
                     }
 
@@ -71,14 +74,6 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
         })
     }
 
-    fun showProgressBar(isVisible: Boolean) {
-        if (isVisible) {
-            binding.pbLoading.visibility = View.VISIBLE
-        } else {
-            binding.pbLoading.visibility = View.INVISIBLE
-        }
-    }
-
     private fun initializeUi() {
         requestManager
             .load(R.drawable.ic_baseline_login)
@@ -97,6 +92,20 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
             return
         }
         viewModel.authenticateWithId(binding.etUserId.text.toString().toInt())
+    }
+
+    private fun onLoginSuccess() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showProgressBar(isVisible: Boolean) {
+        if (isVisible) {
+            binding.pbLoading.visibility = View.VISIBLE
+        } else {
+            binding.pbLoading.visibility = View.INVISIBLE
+        }
     }
 
 

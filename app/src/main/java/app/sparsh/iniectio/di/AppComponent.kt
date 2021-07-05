@@ -2,6 +2,7 @@ package app.sparsh.iniectio.di
 
 import android.app.Application
 import app.sparsh.iniectio.BaseApplication
+import app.sparsh.iniectio.SessionManager
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -15,10 +16,11 @@ import javax.inject.Singleton
         ActivityBuildersModule::class,
         AppModule::class,
         ViewModelFactoryModule::class,
-
     ]
 )
 interface AppComponent : AndroidInjector<BaseApplication> {
+
+    fun sessionManager(): SessionManager
 
     @Component.Builder
     interface Builder {
