@@ -4,17 +4,31 @@ import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import app.sparsh.iniectio.R
+import app.sparsh.iniectio.utils.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 class AppModule {
 
     companion object {
 
+        @Singleton
+        @Provides
+        fun provideRetrofitInstance(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+
+        @Singleton
         @Provides
         fun provideRequestOptions(): RequestOptions {
             return RequestOptions()
@@ -22,6 +36,7 @@ class AppModule {
                 .error(R.drawable.ic_baseline_error)
         }
 
+        @Singleton
         @Provides
         fun provideGlideInstance(
             application: Application,
@@ -31,6 +46,7 @@ class AppModule {
                 .setDefaultRequestOptions(requestOptions)
         }
 
+        @Singleton
         @Provides
         fun provideAppDrawable(application: Application): Drawable {
             return ContextCompat.getDrawable(application, R.drawable.ic_baseline_login)!!
