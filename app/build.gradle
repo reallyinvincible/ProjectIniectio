@@ -66,6 +66,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
     implementation 'com.squareup.okhttp3:okhttp:4.3.1'
 
+    //RXJava Dependencies
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+
+    //Convert Observables to Reactive Streams
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.3.1'
+
     //Lifecycle Extensions
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
